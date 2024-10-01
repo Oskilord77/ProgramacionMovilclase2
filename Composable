@@ -1,0 +1,64 @@
+@Composable
+fun BusinessCard() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Imagen o icono centrado
+        Image(
+            painter = painterResource(id = R.drawable.ic_user_placeholder), // Coloca aquí tu imagen
+            contentDescription = null,
+            modifier = Modifier.size(100.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Nombre completo
+        Text(
+            text = "Full Name",
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight.Bold
+        )
+
+        // Título
+        Text(
+            text = "Title",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Light
+        )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // Información de contacto
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            ContactItem(icon = R.drawable.ic_phone, text = "+00 (00) 000 000")
+            ContactItem(icon = R.drawable.ic_social, text = "@socialmediahandle")
+            ContactItem(icon = R.drawable.ic_email, text = "email@domain.com")
+        }
+    }
+}
+
+@Composable
+fun ContactItem(icon: Int, text: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = icon),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = text)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewBusinessCard() {
+    BusinessCard()
+}
