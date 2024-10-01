@@ -1,0 +1,127 @@
+// Definición de la clase base SmartDevice
+open class SmartDevice(val name: String, val category: String) {
+    var deviceStatus: String = "off"
+    var deviceTurnOnCount: Int = 0
+
+    open fun printDeviceInfo() {
+        println("Device name: $name, category: $category")
+    }
+
+    fun turnOn() {
+        if (deviceStatus == "off") {
+            deviceStatus = "on"
+            deviceTurnOnCount++
+        }
+    }
+
+    fun turnOff() {
+        deviceStatus = "off"
+    }
+}
+
+// Definición de la clase SmartTvDevice, que hereda de SmartDevice
+class SmartTvDevice(name: String, category: String, val deviceType: String) : SmartDevice(name, category) {
+    var volumeLevel: Int = 10
+    var currentChannel: Int = 1
+
+    // Método para reducir el volumen
+    fun decreaseVolume() {
+        if (deviceStatus == "on") {
+            if (volumeLevel > 0) {
+                volumeLevel--
+                println("Volume decreased to $volumeLevel")
+            } else {
+                println("Volume is already at the minimum.")
+            }
+        } else {
+            println("TV is off, cannot decrease volume.")
+        }
+    }
+
+    // Método para cambiar al canal anterior
+    fun previousChannel() {
+        if (deviceStatus == "on") {
+            if (currentChannel > 1) {
+                currentChannel--
+                println("Changed to previous channel: $currentChannel")
+            } else {
+                println("Already on the first channel.")
+            }
+        } else {
+            println("TV is off, cannot change channel.")
+        }
+    }
+
+    override fun printDeviceInfo() {
+        println("Device name: $name, category: $category, type: $deviceType")
+    }
+}
+
+// Definición de la clase SmartLightDevice, que hereda de SmartDevice
+class SmartLightDevice(name: String, category: String) : SmartDevice(name, category) {
+    var brightnessLevel: Int = 100
+
+    // Método para reducir el brillo
+    fun decreaseBrightness() {
+        if (deviceStatus == "on") {
+            if (brightnessLevel > 0) {
+                brightnessLevel -= 10
+                println("Brightness decreased to $brightnessLevel")
+            } else {
+                println("Brightness is already at the minimum.")
+            }
+        } else {
+            println("Light is off, cannot decrease brightness.")
+        }
+    }
+}
+
+// Definición de la clase SmartHome, que maneja los dispositivos
+class SmartHome {
+    val tv = SmartTvDevice("Smart TV", "Entertainment", "OLED")
+    val light = SmartLightDevice("Smart Light", "Lighting")
+
+    // Métodos para controlar la TV
+    fun decreaseTvVolume() {
+        tv.decreaseVolume()
+    }
+
+    fun changeTvChannelToPrevious() {
+        tv.previousChannel()
+    }
+
+    fun printSmartTvInfo() {
+        tv.printDeviceInfo()
+    }
+
+    // Métodos para controlar la luz
+    fun printSmartLightInfo() {
+        light.printDeviceInfo()
+    }
+
+    fun decreaseLightBrightness() {
+        light.decreaseBrightness()
+    }
+}
+
+// Función principal para probar las funcionalidades
+fun main() {
+    val smartHome = SmartHome()
+
+    // Encendemos los dispositivos para probar las acciones
+    smartHome.tv.turnOn()
+    smartHome.light.turnOn()
+
+    // Pruebas con la TV
+    smartHome.printSmartTvInfo()
+    smartHome.decreaseTvVolume()
+    smartHome.changeTvChannelToPrevious()
+
+    // Pruebas con la luz
+    smartHome.printSmartLightInfo()
+    smartHome.decreaseLightBrightness()
+
+    // Apagamos los dispositivos y tratamos de hacer acciones
+    smartHome.tv.turnOff()
+    smartHome.decreaseTvVolume() // Debería indicar que no se puede disminuir el volumen
+}
